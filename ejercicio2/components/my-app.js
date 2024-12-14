@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { stylePokeAPI } from './css/stylePokeAPI';
 export class MyApp extends LitElement {
-  static style = stylePokeAPI;
+  static styles = stylePokeAPI;
   static properties = {
     pokemons: { type: Array },
     selectedType: { type: String },
@@ -74,41 +74,37 @@ export class MyApp extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1 class="text-center">Pokémon App</h1>
+        <h1>Pokédex</h1>
 
-        <div class="row my-3">
-          <div class="col-md-6">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Buscar por ID o nombre"
-              @input=${this.handleSearch}
-            />
-          </div>
-          <div class="col-md-6">
-            <select class="form-select" @change=${this.handleFilter}>
-              <option value="">Filtrar por tipo</option>
-              ${[
-                'fire',
-                'water',
-                'grass',
-                'electric',
-                'rock',
-                'ground',
-                'psychic',
-                'ice',
-                'dragon',
-                'dark',
-                'fairy',
-              ].map(type => html`<option value="${type}">${type}</option>`)}
-            </select>
-          </div>
+        <div class="search-container">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar por ID o nombre"
+            @input=${this.handleSearch}
+          />
+          <select class="form-select" @change=${this.handleFilter}>
+            <option value="">Todos los tipos</option>
+            ${[
+              'fire',
+              'water',
+              'grass',
+              'electric',
+              'rock',
+              'ground',
+              'psychic',
+              'ice',
+              'dragon',
+              'dark',
+              'fairy',
+            ].map(type => html`<option value="${type}">${type}</option>`)}
+          </select>
         </div>
 
         ${this.loading
-          ? html`<p>Cargando Pokémon...</p>`
+          ? html`<p class="text-center">Cargando Pokémon...</p>`
           : this.error
-          ? html`<p>Error: ${this.error}</p>`
+          ? html`<p class="text-center error">${this.error}</p>`
           : this.filteredPokemons.length
           ? html`
               <div class="row">
@@ -128,7 +124,7 @@ export class MyApp extends LitElement {
                         <p class="details">Altura: ${pokemon.height / 10} m</p>
                         <p class="details">Peso: ${pokemon.weight / 10} kg</p>
                         <button
-                          class="btn btn-primary"
+                          class="btn-primary"
                           @click=${() =>
                             alert(
                               `Habilidades: ${pokemon.abilities
@@ -136,7 +132,7 @@ export class MyApp extends LitElement {
                                 .join(', ')}`
                             )}
                         >
-                          Ver más
+                          Ver habilidades
                         </button>
                       </div>
                     </div>
@@ -144,7 +140,7 @@ export class MyApp extends LitElement {
                 )}
               </div>
             `
-          : html`<p>No se encontraron Pokémon</p>`}
+          : html`<p class="text-center">No se encontraron Pokémon</p>`}
       </div>
     `;
   }
